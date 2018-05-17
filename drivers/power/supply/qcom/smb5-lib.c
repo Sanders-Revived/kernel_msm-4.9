@@ -3378,6 +3378,8 @@ void smblib_usb_plugin_hard_reset_locked(struct smb_charger *chg)
 }
 
 #define PL_DELAY_MS	30000
+static int factory_kill_disable;
+module_param(factory_kill_disable, int, 0644);
 void smblib_usb_plugin_locked(struct smb_charger *chg)
 {
 	int rc;
@@ -3432,6 +3434,9 @@ void smblib_usb_plugin_locked(struct smb_charger *chg)
 		if (xiaomi_sdm439_mach_get())
 			schedule_delayed_work(&chg->xiaomi_sdm439_arb_monitor_work, msecs_to_jiffies(XIAOMI_SDM439_ARB_DELAY_MS));
 #endif
+
+		if (chg->mmi.factory_mode)
+			chg->mmi.factory_kill_armed = true;
 	} else {
 #if IS_ENABLED(CONFIG_MACH_FAMILY_XIAOMI_OLIVE)
 		if (xiaomi_sdm439_mach_get_family() == XIAOMI_SDM439_MACH_FAMILY_OLIVE) {
@@ -3512,6 +3517,11 @@ void smblib_usb_plugin_locked(struct smb_charger *chg)
 			cancel_delayed_work_sync(&chg->xiaomi_sdm439_arb_monitor_work);
 		}
 #endif
+		if (chg->mmi.factory_kill_armed && !factory_kill_disable) {
+			smblib_err(chg, "Factory kill power off\n");
+			kernel_power_off();
+		} else
+			chg->mmi.factory_kill_armed = false;
 	}
 
 	if (chg->connector_type == POWER_SUPPLY_CONNECTOR_MICRO_USB)
@@ -5223,8 +5233,6 @@ int smblib_deinit(struct smb_charger *chg)
 
 static struct smb_charger *mmi_chip;
 
-static int factory_kill_disable;
-module_param(factory_kill_disable, int, 0644);
 static int smbchg_reboot(struct notifier_block *nb,
 			 unsigned long event, void *unused)
 {
