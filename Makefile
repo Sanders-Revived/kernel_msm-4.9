@@ -407,11 +407,13 @@ LINUXINCLUDE    := \
 
 USERINCLUDE     += \
                 -I$(srctree)/techpack/motorola-msm8937/include/uapi \
+                -I$(srctree)/techpack/motorola-sanders/include/uapi \
                 -I$(srctree)/techpack/xiaomi-msm8937/include/uapi \
                 -I$(srctree)/techpack/xiaomi-sdm439/include/uapi
 
 LINUXINCLUDE    += \
                 -I$(srctree)/techpack/motorola-msm8937/include \
+                -I$(srctree)/techpack/motorola-sanders/include \
                 -I$(srctree)/techpack/xiaomi-msm8937/include \
                 -I$(srctree)/techpack/xiaomi-sdm439/include
 

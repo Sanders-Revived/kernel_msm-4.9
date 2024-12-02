@@ -12,6 +12,7 @@ dts-dirs += hisilicon
 dts-dirs += marvell
 dts-dirs += mediatek
 dts-dirs += motorola-msm8937
+dts-dirs += motorola-sanders
 dts-dirs += nvidia
 ifneq ($(CONFIG_OF_IGNORE_QCOM_DTS),y)
 dts-dirs += qcom
