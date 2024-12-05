@@ -1,4 +1,3 @@
-
 /* Copyright (c) 2007-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -252,7 +251,7 @@ struct mdss_util_intf mdss_util = {
 	.display_disabled = false
 };
 
-struct mdss_util_intf *mdss_get_util_intf()
+struct mdss_util_intf *mdss_get_util_intf(void)
 {
 	return &mdss_util;
 }
