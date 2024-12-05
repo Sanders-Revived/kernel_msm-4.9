@@ -1,1 +1,0 @@
-../../techpack/camera-legacy-m/include/media/msmb_isp-legacy-m.h

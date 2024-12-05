@@ -1,1 +1,0 @@
-../../../techpack/camera-legacy-m/include/uapi/media/msmb_ispif-legacy-m.h

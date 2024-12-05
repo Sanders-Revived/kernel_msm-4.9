@@ -1,1 +1,0 @@
-../../techpack/camera-legacy-m/include/media/msm_cam_sensor-legacy-m.h
