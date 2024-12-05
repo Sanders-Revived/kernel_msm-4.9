@@ -1,0 +1,48 @@
+&soc {
+	sx9310@28 {
+		compatible = "semtech,sx9310";
+		reg = <0x28>;
+		cap_svdd-supply = <&pm8953_l6>;
+		cap_vdd-supply = <&pm8953_l22>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <46 0x2008>;
+		gpios = <&tlmm 46 0x2008>; /* IRQ */
+		pinctrl-names = "default";
+		pinctrl-0 = <&sx9310_irq_default>;
+		cap,use_channel = <0x01>;
+		cap,scan_period = <0x05>;
+		reg_array_len = <5>;
+		reg_array_val = <0x12 0x0B 0x13 0x05 0x15 0xC2
+					0x18 0x4E 0x10 0x51>;
+	};
+
+	liteon@23 {
+		compatible = "liteon,ltr559";
+		reg = <0x23>;
+		pinctrl-names = "default","sleep";
+		pinctrl-0 = <&ltr559_default>;
+		pinctrl-1 = <&ltr559_sleep>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <86 0x2>;
+		vdd-supply = <&pm8953_l10>;
+		vio-supply = <&pm8953_l6>;
+		ltr,irq-gpio = <&tlmm 86 0x2>;
+		ltr,ps-threshold = <800>;
+		ltr,ps-hysteresis-threshold = <300>;
+		ltr,ps-nearoffset = <20>;
+		ltr,ps-faroffset = <15>;
+		ltr,als-polling-time = <200>;
+		ltr,prox-sensor-name = "Rear Proximity sensor";
+	};
+
+		elan@49 {
+			compatible = "epl,epl8802";
+			reg = <0x49>;
+			id = <0>;
+			num-of-rp = <2>;
+			epl,irq-gpio = <&tlmm 36 0x00>;
+			pinctrl-names = "epl8802_default", "epl8802_suspend";
+			pinctrl-0 = <&epl8802_active>;
+			pinctrl-1 = <&epl8802_suspend>;
+	};
+};

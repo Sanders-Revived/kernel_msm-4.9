@@ -1,0 +1,6 @@
+#include "android.dtsi"
+#include "carrier-channel-ids.dtsi"
+#include "include/moto-mem-reserve.h"
+#include "pmi8950.dtsi"
+#include "soc.dtsi"
+

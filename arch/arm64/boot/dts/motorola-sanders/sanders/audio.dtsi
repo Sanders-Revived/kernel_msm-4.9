@@ -1,0 +1,77 @@
+&soc {
+	alsa_to_h2w {
+		compatible = "mmi,alsa-to-h2w";
+	};
+
+	/delete-node/ sound-9335;
+        /delete-node/ wsa881x_analog_vi_gpio;
+	/delete-node/ wsa881x_analog_clk_gpio;
+        /delete-node/ wsa881x_analog_reset_gpio;
+
+	dummy_vreg: dummy_vreg {
+		compatible = "regulator-fixed";
+		status = "ok";
+		regulator-name = "dummy_vreg";
+		regulator-always-on;
+	};
+
+	ospl {
+		compatible = "mmi,ospl2xx";
+		status = "ok";
+		mmi,ospl-tune-index = <0 1 2 3>;
+		mmi,ospl-afe-port-id = <0x1016 0x1017>;
+		mmi,ospl-left-feedback;
+	};
+
+	sound {
+		status = "okay";
+		qcom,model = "msm8953-snd-card";
+		qcom,msm-mbhc-hphl-swh = <1>;
+		qcom,msm-mbhc-gnd-swh = <0>;
+		qcom,msm-micbias1-ext-cap;
+		qcom,msm-hs-micbias-type = "internal";
+		qcom,msm-ext-pa = "quinary";
+		qcom,audio-routing =
+			"RX_BIAS", "MCLK",
+			"INT_LDO_H", "MCLK",
+			"MIC BIAS External", "Handset Mic",
+			"MIC BIAS Internal2", "Headset Mic",
+			"MIC BIAS External", "Secondary Mic",
+			"AMIC1", "MIC BIAS External",
+			"AMIC2", "MIC BIAS Internal2",
+			"AMIC3", "MIC BIAS External";
+		/delete-property/ qcom,cdc-us-eu-gpios;
+		/delete-property/ qcom,cdc-us-euro-gpios;
+		/delete-property/ qcom,hdmi-dba-codec-rx;
+		/delete-property/ asoc-wsa-codec-names;
+		/delete-property/ asoc-wsa-codec-prefixes;
+
+		/delete-property/ msm-vdd-wsa-switch-supply;
+		/delete-property/ qcom,msm-vdd-wsa-switch-voltage;
+		/delete-property/ qcom,msm-vdd-wsa-switch-current;
+
+	};
+
+		cs35l35@40 {
+			compatible = "cirrus,cs35l35";
+			reg = <0x40>;
+			reset-gpio = <&tlmm 137 0>;
+			irq-gpio = <&tlmm 132 1>;
+			interrupt-parent = <&tlmm>;
+			interrupts = <132 8>;
+
+			VA-supply = <&dummy_vreg>;
+			VP-supply = <&dummy_vreg>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&cs35l35_irq_default &cs35l35_reset_default>;
+	};
+};
+
+&slim_msm {
+	status = "disabled";
+	/delete-node/ tasha_codec;
+	marley-codec {
+		compatible = "cirrus,marley-slim-audio";
+		elemental-addr = [00 7F 60 63 FA 01];
+	};
+};

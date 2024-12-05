@@ -955,6 +955,14 @@ config MSM_BAM_DMUX
 		via pair of IPC GPIOs for inward and outward signals between MSM
 		and Blackghost(BG) SOC.
 
+	config MACH_MOTOROLA_SANDERS
+        depends on ARCH_QCOM
+        default n
+        bool "Sanders DTBs"
+        help
+          Only include Sanders specific DTBs to limit the number that
+          get built during kernel compilation.
+
 	config MSM_BGCOM
 	bool "Provide APIs to communicate with Blackghost chipset"
 	help
